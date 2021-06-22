@@ -24,7 +24,7 @@ resource "azurerm_app_service" "dockerapp" {
 
   location            = "WestEurope"
   resource_group_name = "BASF_RG_LAB_${var.index}"
-  app_service_plan_id = "${azurerm_app_service_plan.appserviceplan.id}"
+  app_service_plan_id = azurerm_app_service_plan.appserviceplan.id
 
   # Do not attach Storage by default
   app_settings= {
@@ -33,7 +33,7 @@ resource "azurerm_app_service" "dockerapp" {
     
     # Settings for private Container Registries  
     DOCKER_REGISTRY_SERVER_URL      = "https://${data.azurerm_container_registry.acr.name}.azurecr.io"
-    DOCKER_REGISTRY_SERVER_USERNAME = "data.azurerm_container_registry.acr.admin_username
+    DOCKER_REGISTRY_SERVER_USERNAME = data.azurerm_container_registry.acr.admin_username
     DOCKER_REGISTRY_SERVER_PASSWORD = data.azurerm_container_registry.acr.admin_password
     WEBSITES_PORT=8080
   
