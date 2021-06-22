@@ -1,4 +1,4 @@
 variable "index" {
   type        = string
-  description = "the Index of the Cloud Lab"
+  description = "The Cloud Lab Index (e.g. 001, 021 ...)"
 }
