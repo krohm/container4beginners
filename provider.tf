@@ -5,7 +5,7 @@ terraform {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = ">= 2.50"
-      skip_provider_registration = true
+      skip_provider_registration = "true"
     }
     random = {
       source = "hashicorp/random"
