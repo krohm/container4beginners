@@ -1,16 +1,17 @@
-FROM python:3
+# Use a python base image
+FROM
 
 # set a directory for the app
 WORKDIR /usr/src/app
 
 # copy all the files to the container
-COPY . .
+COPY
 
 # install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # tell the port number the container should expose
-EXPOSE 5000
+EXPOSE
 
 # run the command
-CMD ["python", "./app.py"]
+CMD ["python", "./application.py"]

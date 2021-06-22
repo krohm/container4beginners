@@ -2,7 +2,7 @@
 resource "azurerm_app_service_plan" "appserviceplan" {
   name                = "asp"
   location            = "WestEurope"
-  resource_group_name = "BASF_RG_LAB_<Index>"
+  resource_group_name = "BASF_RG_LAB_${var.index}"
 
   # Define Linux as Host OS
   kind = "Linux"
@@ -23,19 +23,21 @@ resource "azurerm_app_service" "dockerapp" {
    name                = "dockerapp-${lower(substr(sha256(azurerm_app_service_plan.appserviceplan.id), 0, 6))}"
 
   location            = "WestEurope"
-  resource_group_name = "BASF_RG_LAB_<index>"
+  resource_group_name = "BASF_RG_LAB_${var.index}"
   app_service_plan_id = "${azurerm_app_service_plan.appserviceplan.id}"
 
   # Do not attach Storage by default
   app_settings= {
     WEBSITES_ENABLE_APP_SERVICE_STORAGE = false
 
-    /*
-    # Settings for private Container Registires  
-    DOCKER_REGISTRY_SERVER_URL      = ""
-    DOCKER_REGISTRY_SERVER_USERNAME = ""
-    DOCKER_REGISTRY_SERVER_PASSWORD = ""
-    */
+    
+    # Settings for private Container Registries  
+    DOCKER_REGISTRY_SERVER_URL      = "https://${data.azurerm_container_registry.acr.name}.azurecr.io"
+    DOCKER_REGISTRY_SERVER_USERNAME = "data.azurerm_container_registry.acr.admin_username
+    DOCKER_REGISTRY_SERVER_PASSWORD = data.azurerm_container_registry.acr.admin_password
+    WEBSITES_PORT=8080
+  
+    
   }
 
   # Configure Docker Image to load on start
